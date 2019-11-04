@@ -1,12 +1,7 @@
 #!groovy
 
 pipeline {
-    agent { label params.agent_label }
-    parameters {
-        choice(name: 'agent_label',
-                choices: ["master", "protractor-slave"],
-                description: 'агент на котором запускать')
-    }
+    agent { label 'master' }
     options {
         ansiColor('xterm')
         disableConcurrentBuilds()
@@ -14,7 +9,6 @@ pipeline {
     }
     stages {
         stage('First Step') {
-            agent { label params.agent_label }
             steps {
                 echo "Building image"
                 dir ('docker/toolbox')
