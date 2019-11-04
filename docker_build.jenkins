@@ -16,7 +16,11 @@ pipeline {
         stage('First Step') {
             agent { label params.agent_label }
             steps {
-                echo "Message 1: first step"
+                echo "Building image"
+                dir ('docker/toolbox')
+                {
+                    sh 'docker build . '
+                }
             }
         }        
     }
