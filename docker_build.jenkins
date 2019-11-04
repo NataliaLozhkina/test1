@@ -1,0 +1,23 @@
+#!groovy
+
+pipeline {
+    agent { label params.agent_label }
+    parameters {
+        choice(name: 'agent_label',
+                choices: ["master", "protractor-slave"],
+                description: 'агент на котором запускать')
+    }
+    options {
+        ansiColor('xterm')
+        disableConcurrentBuilds()
+        timestamps()
+    }
+    stages {
+        stage('First Step') {
+            agent { label params.agent_label }
+            steps {
+                echo "Message 1: first step"
+            }
+        }        
+    }
+}
