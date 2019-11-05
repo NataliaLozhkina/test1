@@ -15,7 +15,7 @@ pipeline {
     agent { label params.agent_label }
     parameters {
         string(name: 'test_path',
-                defaultValue: 'test1/autotests/jmeter',
+                defaultValue: '/test1/autotests/jmeter',
                 description: 'папка с тестами?')
         choice(name: 'agent_label',
                 choices: ["master", "protractor-slave"],
