@@ -3,6 +3,7 @@ TEST_PATH=params.test_path
 
 void getTestsArray()
 {
+    sh "pwd"
     testFileArray = sh (
             script: "find ${TEST_PATH} -type f",
             returnStdout: true
