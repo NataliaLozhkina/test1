@@ -4,7 +4,7 @@ TEST_PATH=params.test_path
 void getTestsArray()
 {
     testFileArray = sh (
-            script: "find ${TEST_PATH} -type -f",
+            script: "find ${TEST_PATH} -type f",
             returnStdout: true
     ).trim().split("\n")
     
