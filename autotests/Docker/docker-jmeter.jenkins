@@ -1,13 +1,38 @@
 #!groovy
+TEST_PATH=params.test_path
+
+void getTestsArray()
+{
+    testFileArray = sh (
+            script: "find ${TEST_PATH} -name *.html",
+            returnStdout: true
+    ).trim().split("\n")
+    
+    println("testFileArray:" + testFileArray)
+}
 
 pipeline {
-    agent { label 'master' }
+    agent { label params.agent_label }
+    parameters {
+        string(name: 'test_path',
+                defaultValue: 'autotests',
+                description: 'папка с тестами?')
+        choice(name: 'agent_label',
+                choices: ["master", "protractor-slave"],
+                description: 'агент на котором запускать')
+    }
     options {
         disableConcurrentBuilds()
         timestamps()
     }
     stages {
-        stage('First Step') {
+        stage('First - GetArrayFiles') {
+            steps {
+                echo "GetArrayFiles"
+                getTestsArray() 
+            }
+        }    
+        stage('Second - Run container') {
             steps {
                 echo "Building image"
                 dir ('docker/toolbox')
@@ -15,6 +40,6 @@ pipeline {
                     sh 'docker build . '
                 }
             }
-        }        
+        }
     }
 }
